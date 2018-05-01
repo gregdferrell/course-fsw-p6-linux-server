@@ -51,18 +51,17 @@ The goal is to get a basic Ubuntu instance from a cloud provider (I used Amazon 
   - `sudo ufw allow www`
   - `sudo ufw show added`
   - `sudo ufw enable`
-  - `sudo ufw status`
-	Should display:
-	`
-	To                         Action      From
-	--                         ------      ----
-	2200/tcp                   ALLOW       Anywhere
-	123                        ALLOW       Anywhere
-	80/tcp                     ALLOW       Anywhere
-	2200/tcp (v6)              ALLOW       Anywhere (v6)
-	123 (v6)                   ALLOW       Anywhere (v6)
-	80/tcp (v6)                ALLOW       Anywhere (v6)
-	`
+  - `sudo ufw status` - Should display:
+```
+        To                         Action      From
+        --                         ------      ----
+        2200/tcp                   ALLOW       Anywhere
+        123                        ALLOW       Anywhere
+        80/tcp                     ALLOW       Anywhere
+        2200/tcp (v6)              ALLOW       Anywhere (v6)
+        123 (v6)                   ALLOW       Anywhere (v6)
+        80/tcp (v6)                ALLOW       Anywhere (v6)
+```
 - Setup Users & Accesses to Server
   - Install Finger
     - `sudo apt-get install finger`
