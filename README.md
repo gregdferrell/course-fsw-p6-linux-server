@@ -10,35 +10,40 @@ The goal is to get a basic Ubuntu instance from a cloud provider (I used Amazon 
 - IP: 52.14.121.23
 - SSH Port: 2200
 
-#### URL for hosted web app:
-- TODO
+#### URL for Hosted Web App:
+- http://52.14.121.23/
 
 #### Software Installed:
 ```
-sudo apt-get install finger
-sudo apt-get install apache2
-sudo apt-get install libapache2-mod-wsgi-py3
-sudo apt-get install python3-pip
-sudo apt-get install postgresql
+finger
+apache2
+postgresql
+git
+python3-pip
+libapache2-mod-wsgi-py3
 ```
 
-#### Third Part Resources Used to Complete Project:
+#### Third Party Resources Used to Complete Project:
 - Add private key to SSH agent for remote login:
   - https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/
 - Disable remote login with root user:
   - https://askubuntu.com/questions/27559/how-do-i-disable-remote-ssh-login-as-root-from-a-server
 - Postgresql reference
   - https://www.postgresql.org/docs/9.5/static/
+- Using mod_wsgi w Flask
+  - http://flask.pocoo.org/docs/0.12/deploying/mod_wsgi/
 
 # Detailed Setup Steps
 
 #### Create Amazon Lightsail Ubuntu Instance
-- DNS: x.x.x.x.xip.io
+- Ubuntu 16.04 LTS
+- python3 --version => 3.5.2
+- DNS: 52.14.121.23.xip.io
 
-#### Add SSH Private Key to ssh-agent
+#### To login w SSH, add SSH Private Key to ssh-agent
 ```
 # Get SSH private Key from Amazon Lightsail Account Page
-# Ref: https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/
+
 # On local machine, start the ssh-agent in the background:
 eval $(ssh-agent -s)
 
@@ -134,12 +139,14 @@ chmod 644 .ssh/authorized_keys
 #### Install Apache2, Python 3 WSGI, PIP3, Postgresql
 ```
 sudo apt-get install apache2
-sudo apt-get install libapache2-mod-wsgi-py3
-sudo apt-get install python3-pip
-sudo apt-get install postgresql
+
+# Visit your IP and see the default Apache2 page
 ```
 
 #### Configure Postgresql
+```
+sudo apt-get install postgresql
+```
 
 ###### Setup User: `postgres`
 ```
@@ -180,3 +187,44 @@ psql -U postgres
 ALTER DATABASE catalog OWNER TO catalog;
 ALTER USER catalog WITH PASSWORD 'catalog';
 ```
+
+
+#### Setup Python Web App
+
+###### Install Git and Download Source
+```
+# Git may already be installed
+sudo apt-get install git
+
+cd /var/www
+sudo git clone https://github.com/gregdferrell/fsw-p4-story-time.git
+```
+
+###### Create DB Schema and Add Test Data
+```
+# Create schema
+cd /var/www/fsw-p4-story-time/db
+psql -U catalog -d catalog -a -f create_schema.sql
+
+# Add test data
+sudo apt-get install python3-pip
+sudo pip3 install -r /var/www/fsw-p4-story-time/requirements.txt
+sudo python3 /var/www/fsw-p4-story-time/db/create_test_data.py
+```
+
+#### Configure Apache2 For Python Web App
+```
+sudo apt-get install libapache2-mod-wsgi-py3
+
+# Update the Apache2 config file
+sudo vi /etc/apache2/sites-enabled/000-default.conf
+# Add the following line to the VirtualHost element:
+WSGIScriptAlias / /var/www/fsw-p4-story-time/storytime/app_prod.wsgi
+
+# Restart Apache2
+sudo apache2ctl restart
+```
+
+# TODO
+- Populate facebook/google - update online host name
+- Update Pip3: You are using pip version 8.1.1, however version 10.0.1 is available. You should consider upgrading via the 'pip install --upgrade pip' command.
