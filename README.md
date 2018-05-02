@@ -32,6 +32,8 @@ libapache2-mod-wsgi-py3
   - https://www.postgresql.org/docs/9.5/static/
 - Using mod_wsgi w Flask
   - http://flask.pocoo.org/docs/0.12/deploying/mod_wsgi/
+- File permissions for user uploads
+  - https://stackoverflow.com/questions/21797372/django-errno-13-permission-denied-var-www-media-animals-user-uploads
 
 # Detailed Setup Steps
 
@@ -188,7 +190,6 @@ ALTER DATABASE catalog OWNER TO catalog;
 ALTER USER catalog WITH PASSWORD 'catalog';
 ```
 
-
 #### Setup Python Web App
 
 ###### Install Git and Download Source
@@ -198,6 +199,19 @@ sudo apt-get install git
 
 cd /var/www
 sudo git clone https://github.com/gregdferrell/fsw-p4-story-time.git
+```
+
+###### Setup App Config
+```
+Follow instructions for application configuration on the app GitHub page: https://github.com/gregdferrell/fsw-p4-story-time
+
+# Facebook App
+Add "http://<ip-address/domain-name>" to "Valid OAuth Redirect URIs"
+
+# Google App
+# https://console.developers.google.com/apis/credentials?project=<your-project-name>
+Add "http://<ip-address/domain-name>" to "Authorized JavaScript origins"
+Add "http://52.14.121.23.nip.io/oauth2callback" to "Authorized redirect URIs"
 ```
 
 ###### Create DB Schema and Add Test Data
@@ -212,7 +226,20 @@ sudo pip3 install -r /var/www/fsw-p4-story-time/requirements.txt
 sudo python3 /var/www/fsw-p4-story-time/db/create_test_data.py
 ```
 
-#### Configure Apache2 For Python Web App
+###### Set File Permissions for User Uploads of Images
+```
+# Permit www-data user to read/write/execute in /var/www/ for image uploads
+sudo groupadd varwwwusers
+sudo adduser www-data varwwwusers
+sudo chgrp -R varwwwusers /var/www/
+sudo chmod -R 770 /var/www/
+
+# Add user ubuntu to this group so we can traverse the directory
+# Note: User will have to log in again to obtain privileges associated with this group
+sudo usermod -a -G varwwwusers ubuntu
+```
+
+###### Setup Apache2 for Python Web App
 ```
 sudo apt-get install libapache2-mod-wsgi-py3
 
@@ -225,6 +252,7 @@ WSGIScriptAlias / /var/www/fsw-p4-story-time/storytime/app_prod.wsgi
 sudo apache2ctl restart
 ```
 
+# PROFIT!
+
 # TODO
-- Populate facebook/google - update online host name
-- Update Pip3: You are using pip version 8.1.1, however version 10.0.1 is available. You should consider upgrading via the 'pip install --upgrade pip' command.
+- Fix Google Sign-In error
