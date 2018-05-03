@@ -11,7 +11,7 @@ The goal is to get a basic Ubuntu instance from a cloud provider (I used Amazon 
 - SSH Port: 2200
 
 #### URL for Hosted Web App:
-- http://52.14.121.23/
+- http://ec2-52-14-121-23.us-east-2.compute.amazonaws.com
 
 #### Software Installed:
 ```
@@ -210,8 +210,9 @@ Add "http://<ip-address/domain-name>" to "Valid OAuth Redirect URIs"
 
 # Google App
 # https://console.developers.google.com/apis/credentials?project=<your-project-name>
-Add "http://<ip-address/domain-name>" to "Authorized JavaScript origins"
-Add "http://52.14.121.23.nip.io/oauth2callback" to "Authorized redirect URIs"
+Add "http://<domain>" to "Authorized JavaScript origins"
+- Note: You cannot just use an IP address. When using Amazon Lightsail, you need to figure out what the DNS findable URL is. Mine was: http://ec2-52-14-121-23.us-east-2.compute.amazonaws.com
+Add "http://<domain>/oauth2callback" to "Authorized redirect URIs"
 ```
 
 ###### Create DB Schema and Add Test Data
@@ -253,6 +254,3 @@ sudo apache2ctl restart
 ```
 
 # PROFIT!
-
-# TODO
-- Fix Google Sign-In error
