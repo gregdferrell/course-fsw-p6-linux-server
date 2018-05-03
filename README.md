@@ -34,6 +34,8 @@ libapache2-mod-wsgi-py3
   - http://flask.pocoo.org/docs/0.12/deploying/mod_wsgi/
 - File permissions for user uploads
   - https://stackoverflow.com/questions/21797372/django-errno-13-permission-denied-var-www-media-animals-user-uploads
+- Getting Google OAuth login working (JavaScript origins) with Amazon Lightsail instance
+  - https://discussions.udacity.com/t/solved-configuring-linux-google-oauth-invalid-request/376259/16
 
 # Detailed Setup Steps
 
