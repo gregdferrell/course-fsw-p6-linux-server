@@ -4,6 +4,10 @@ This is a linux web server configuration project -the 6th project in the Udacity
 
 The goal is to get a basic Ubuntu instance from a cloud provider (I used Amazon Lightsail), secure it, then install the software required to host a Python Flask web application and Postgresql DB.
 
+## Demo
+
+View a live demo at [storytime.gregdferrell.com](http://storytime.gregdferrell.com).
+
 #### Software Installed:
 ```
 finger
