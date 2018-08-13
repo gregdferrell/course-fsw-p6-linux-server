@@ -1,17 +1,8 @@
 # Ubuntu Linux Server Configuration: Udacity Full Stack Developer Project 6
 
-This is a linux web server configuration project  -the 6th project in the Udacity Full Stack Nanodegree.
+This is a linux web server configuration project  -the 6th project in the Udacity Nanodegree: Full Stack Web Developer.
 
 The goal is to get a basic Ubuntu instance from a cloud provider (I used Amazon Lightsail), secure it, then install the software required to host a Python Flask web application and Postgresql DB.
-
-# Notes for Project Reviewer
-
-#### IP Address and SSH Port:
-- IP: 52.14.121.23
-- SSH Port: 2200
-
-#### URL for Hosted Web App:
-- http://ec2-52-14-121-23.us-east-2.compute.amazonaws.com
 
 #### Software Installed:
 ```
