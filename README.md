@@ -1,6 +1,6 @@
-# Ubuntu Linux Server Configuration: Udacity Full Stack Developer Project 6
+# Ubuntu Linux Server Configuration: Udacity Nanodegree - Full Stack Web Developer Project 6
 
-This is a linux web server configuration project  -the 6th project in the Udacity Nanodegree: Full Stack Web Developer.
+This is a linux web server configuration project -the 6th project in the Udacity Nanodegree: Full Stack Web Developer.
 
 The goal is to get a basic Ubuntu instance from a cloud provider (I used Amazon Lightsail), secure it, then install the software required to host a Python Flask web application and Postgresql DB.
 
